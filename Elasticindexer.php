@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Elasticindexer
  *
@@ -24,11 +17,25 @@ class Elasticindexer {
     private $_isconnected =true;//store the connection boolean value.
     private $_request_url='';//request url as per the requirements (like PUT,GET,DELETE)
     private $elastic_obj='';
+    
+    /*
+    * __construct()
+    * @param $host
+    * @param $port
+    * Desc: connected to elastic server if not connected then it shows error message.
+    */
     public function __construct($host='127.0.0.1',$port='9200') {
         $this->elastic_obj = new Elastic($host,$port);
         $this->_isconnected = $this->elastic_obj->_checkConnection();
     }
-    
+    /*
+    * createDocument()
+    * @param $document, actual data array which is used to create document
+    * @param $id, document unique id 
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * Desc : Create document with specified index/type name with unique id
+    */
     public function createDocument($document,$id,$index="test",$type="member")
     {
         $result = array();
@@ -38,7 +45,14 @@ class Elasticindexer {
         }
         return $result;
     }
-    
+    /*
+    * getDocument()
+    * @param $id, single document id 
+    * @param $fields, list of fields which are going display in o/p
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * Desc : get document for specified document id 
+    */
     public function getDocument($id,$fields=array(),$index="test",$type="member")
     {
         $output=array();
@@ -62,7 +76,14 @@ class Elasticindexer {
         $output['total']=1;
         return $output;
     }
-    
+    /*
+    * getDocuments()
+    * @param $id, multiple document ids 
+    * @param $fields, list of fields which are going display in o/p
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * Desc : get documents for specified document ids 
+    */
     public function getDocuments($document,$fields=array(),$index="test",$type="member")
     {
         $result = array();
@@ -90,7 +111,14 @@ class Elasticindexer {
         $output['total']=$cnt;
         return $output;
     }
-    
+    /*
+    * updateDocument()
+    * @param $document, array of fields with values which are going to update in document 
+    * @param $id, document unique id 
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * Desc : update document for specified document id  
+    */    
    public function updateDocument($document,$id,$index="test",$type="member")
    {
        $result = FALSE;
@@ -109,7 +137,13 @@ class Elasticindexer {
         }
         return $result;
    }
-   
+   /*
+    * deleteDocument()
+    * @param $id, document unique id 
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * Desc : delete single document for specified document id 
+    */    
    public function deleteDocument($id,$index="test",$type="member")
    {
        $result = false;
@@ -126,7 +160,13 @@ class Elasticindexer {
         }
         return $result;
    }
-   
+   /*
+    * isDocumentExists()
+    * @param $id, document unique id 
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * Desc : check whether document is exists or not in specified index or type 
+   */   
    public function isDocumentExists($id,$index="test",$type="member")
    {
        $result = false;
@@ -142,7 +182,18 @@ class Elasticindexer {
         }
         return $result;
    }
-   
+   /*
+    * Filter()
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * @param $op, operator default operator is AND
+    * @param $filter
+    * @param $query
+    * @param $limit
+    * @param $fields
+    * @param $sort
+    * Desc : get all the result as per filter
+    */
    public function Filter($index="test",$type="member",$op="AND",$filter=array(),$query=array(),$limit=array(),$fields=array(),$sort=array())
    {
        
