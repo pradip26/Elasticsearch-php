@@ -18,6 +18,13 @@ class Elastic extends Curl {
     private $_isconnected =true;//store the connection boolean value.
     private $_request_url='';//request url as per the requirements (like PUT,GET,DELETE)
     
+    /*
+    * __construct()
+    * @param $host
+    * @param $port
+    * @param $index
+    * Desc: we are connecting to elastic search server
+    */
     public function __construct($host='127.0.0.1',$port='9200',$index='test') {        
         $this->_host = $host;
         $this->_port=$port;
@@ -37,9 +44,11 @@ class Elastic extends Curl {
     }
     
     /*
-     * Ping to elastic search URL and check connection is open or not.
+     *_checkConnection() 
+     * Ping to elastic search server through URL and check connection is open or not.
+     * if connection is not opened then return False else true.
      */
-    public function _checkConnection()
+    private function _checkConnection()
     {
         $this->_connectionurl = $this->_protocol.'://'.$this->_host.':'.$this->_port;
         $start = microtime(true);
@@ -84,7 +93,7 @@ class Elastic extends Curl {
     }
     /*
      * checkDocumentExists()
-     * @docurl : document url
+     * Check document is exists or not if exists then return True else false.
      */
     public function checkDocumentExists($params=array())
     {
@@ -109,7 +118,8 @@ class Elastic extends Curl {
     }
     /*
      * _constructUrl()
-     * @params array :provide all require parameters in array     * 
+     * @params array :provide all require parameters in array
+     * Create final curl URL which are going to hit to elastic server basis on request .
     */
    private function _constructUrl($params=array())
    {
@@ -176,10 +186,11 @@ class Elastic extends Curl {
    /*
      * updateDocument()
      * @params 
-     * @document : data in array which want to store in ES
-     * @id : document unique id for this indices(DB)
-     * @index : provide index name (DB)
-     * @type : this is nothing but table in that index .
+     * @param $document : data in array which want to store in ES
+     * @param $id : document unique id for this indices(DB)
+     * @param $index : provide index name (DB)
+     * @param $type : this is nothing but table in that index .
+     * Desc: Update created documents 
      */
    public function updateDocument($document,$id,$index,$type)
    {
@@ -202,9 +213,10 @@ class Elastic extends Curl {
     /*
      * deleteDocument() 
      * @params 
-     * @id : document unique id for this indices(DB)
-     * @index : provide index name (DB)
-     * @type : this is nothing but table in that index .
+     * @param $id : document unique id for this indices(DB)
+     * @param $index : provide index name (DB)
+     * @param $type : this is nothing but table in that index .
+     * Desc : Delete document from index.
      */
    public function deleteDocument($id,$index,$type)
    {
@@ -226,9 +238,10 @@ class Elastic extends Curl {
    /*
      * getDocument() 
      * @params 
-     * @id : document unique id for this indices(DB)
-     * @index : provide index name (DB)
-     * @type : this is nothing but table in that index .
+     * @param $id : document unique id for this indices(DB)
+     * @param $index : provide index name (DB)
+     * @param $type : this is nothing but table in that index .
+     * Desc : get document by id in index or also get the specific fields which are passing in array
      */
    public function getDocument($id,$index,$type,$fields=array())
    {
@@ -254,9 +267,10 @@ class Elastic extends Curl {
      * getDocuments() 
      * Retrieve multiple documents
      * @params 
-     * @document : data in array which want to store in ES
-     * @index : provide index name (DB)
-     * @type : this is nothing but table in that index .
+     * @param $document : data in array which want to store in ES
+     * @param $index : provide index name (DB)
+     * @param $type : this is nothing but table in that index .
+     * Desc : get document by multiple ids in index or also get the specific fields which are passing in array
      */
    public function getDocuments($document,$index,$type,$fields=array())
    {
@@ -281,9 +295,10 @@ class Elastic extends Curl {
    }
    
    /*
-    * getFilterdata
-    * @filter=array
-    * @range=array
+    * getFilterdata()
+    * @param $filter=array
+    * @param $range=array
+    * Desc: passed filter Document array in json with operator and get respective results
     */
    public function getFilterdata($index,$type,$document,$limit=array(),$fields=array())
    {
@@ -314,7 +329,10 @@ class Elastic extends Curl {
    
    /*
     * getFilterdataCount()
-    * 
+    * @param $index
+    * @param $type
+    * @param $document
+    * Desc: only get the filter results data count
     */
    public function getFilterdataCount($index,$type,$document)
    {
@@ -333,7 +351,14 @@ class Elastic extends Curl {
         }
         return $result;
    }
-   
+   /*
+   * getFilterAggregations()
+   * @param $index
+   * @param $type
+   * @param $document
+   * @param $search_type, like count, sum, avg
+   * Desc:  provide aggregated data based on a search query
+   */
    public function getFilterAggregations($index,$type,$document,$search_type)
    {
        $result = array();      
