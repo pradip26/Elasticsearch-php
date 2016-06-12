@@ -187,11 +187,11 @@ class Elasticindexer {
     * @param $index, name of collection same as like DB name
     * @param $type, name of sub collection just as like mysql/sql table
     * @param $op, operator default operator is AND
-    * @param $filter
-    * @param $query
-    * @param $limit
-    * @param $fields
-    * @param $sort
+    * @param $filter, this is used for filtered query format of elastic search
+    * @param $query, this is elastic search query format
+    * @param $limit, contains from and max limit. num of of records needs to fetch
+    * @param $fields, list of fields which needs to be shown
+    * @param $sort, mentioned sort field name.
     * Desc : get all the result as per filter
     */
    public function Filter($index="test",$type="member",$op="AND",$filter=array(),$query=array(),$limit=array(),$fields=array(),$sort=array())
@@ -246,7 +246,16 @@ class Elasticindexer {
         return $final_result;
    }
    
-   /*return only count of result*/
+   /*
+    * FilterResultCount()
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * @param $op, operator default operator is AND
+    * @param $filter, this is used for filtered query format of elastic search
+    * @param $query, this is elastic search query format
+    * @param $range, optinal no need to use
+    * Desc : get result count
+    */
    public function FilterResultCount($index="test",$type="member",$op="AND",$filter=array(),$query=array(),$range=array())
    {
        
@@ -265,8 +274,16 @@ class Elasticindexer {
         //pr($result);exit;
         return $result['count'];
    }
-   
-   /*return aggregations result,it is kind of group by(Facets)*/
+   /*
+    * FilterAggregations()
+    * @param $index, name of collection same as like DB name
+    * @param $type, name of sub collection just as like mysql/sql table
+    * @param $aggregation_name, name of filed on which we want to set aggregation result
+    * @param $filter, this is used for filtered query format of elastic search
+    * @param $search_type, basically name of aggregate function 
+    * @param $range, optinal no need to use
+    * Desc : return aggregations result,it is kind of group by( like Facets)
+    */
    public function FilterAggregations($index="test",$type="member",$aggregation_name='',$filter=array(),$search_type="",$filter_fields=array())
    {       
        $result = false;
