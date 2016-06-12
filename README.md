@@ -33,25 +33,27 @@ $elastic = new Elasticindexer();
 ```
 
 # Create Document
-
+```
 $doc = array('firstname'=>'pradip','lastname'=>'humane','empid'=>100); 
 $res = $elastic->createDocument($doc,3);
+```
 
 # Check document exits and get Document
-
+```
 if($elastic->isDocumentExists(2)) { 
 $result = $elastic->getDocument(2); 
 var_dump($result); 
 }
+```
 
 # Get multiple documents
-
+```
 $doc['ids'] = array(1,2,3); 
 $result = $elastic->getDocuments($doc); 
 print_r($result);
-
+```
 # Filter in elastic search
-
+```
 $filter['empid']=100; 
 $es_query=getESQuery($filter); 
 $result = $elastic->Filter("test",'member','AND',$es_query['filter'],$es_query['query']); 
@@ -85,6 +87,6 @@ if(isset($postdata['empid']) || !empty($postdata['empid'])) {
   } 
   return array('filter'=>$filter,'query'=>$query); 
 }
-
+```
 
 
