@@ -35,7 +35,7 @@ $elastic = new Elasticindexer();
 # Create Document
 ```
 $doc = array('firstname'=>'pradip','lastname'=>'humane','empid'=>100); 
-$res = $elastic->createDocument($doc,3);
+$res = $elastic->createDocument($doc,3,'test','member');
 ```
 
 # Check document exits and get Document
@@ -89,4 +89,15 @@ if(isset($postdata['empid']) || !empty($postdata['empid'])) {
 }
 ```
 
+# Delete document 
+```
+//passed document id 
+$result = $elastic->deleteDocument(2,'test','member'); 
+```
 
+# Update document 
+```
+$doc = array('lastname'=>'humane','firstname'=>'Paddy');
+$id = 2; //document id
+$response = $elastic->updateDocument($doc, $id,'test','member');
+```
