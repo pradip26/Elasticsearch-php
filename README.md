@@ -24,10 +24,10 @@ Steps to use :
 
 # Create elastic indexer object
 
-include('Elasticindexer.php'); 
-include 'Curl.php'; 
-include 'Elastic.php'; 
-$elastic = new Elasticindexer();
+`include('Elasticindexer.php'); `
+`include 'Curl.php'; `
+`include 'Elastic.php'; `
+`$elastic = new Elasticindexer();`
 
 # Create Document
 
