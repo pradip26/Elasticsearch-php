@@ -29,6 +29,17 @@ $es_query=getESQuery($filter);
 $result = $elastic->Filter("test",'member','AND',$es_query['filter'],$es_query['query']);     
 print_r($result);
   
+/* bulk document indexing */
+$document = array(
+                166=>array('action'=>'create',
+                           'request'=>array('firstname'=>'ABC','lastname'=>'XYZ','empid'=>200)
+                     ),
+                167=>array('action'=>'create',
+                           'request'=>array('firstname'=>'PQR','lastname'=>'TLW','empid'=>201)
+                     )
+            );
+$res = $elastic->bulk($document, "test", "member");
+print_r($res);  
 
 function getESQuery($postdata=array(),$operator='')
     {
