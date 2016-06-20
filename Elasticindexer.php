@@ -316,22 +316,35 @@ class Elasticindexer {
         //pr($output);exit;
         return $output;
    }
-   
    /**
     * @developer Mayur Takawale & Pradip humane
     * @description to perform bulk operations
-    * @param array $document contain data to add in elasetic search. For delete operation data is not required  
-    * @param associative array $operations array which contain key as id's and which operation should be perform against that id (like Create, Update and Delete)
+    * @param array $document contain data to add in elasetic search. For delete operation data is not required 
     * @param string $index index name on which operation get execute
     * @param string $type type name on which operation get execute
     */
-   public function bulk($document,$operations,$index="test",$type="member")
+   public function bulk($document,$index="test",$type="member")
    {
         $result = array();
         if($this->_isconnected)
         {
-           $result= $this->elastic_obj->bulk($document, $operations, $index, $type);           
+           if(!empty($document))
+           {
+               $bulkString = array();
+               foreach ($document as $key => $value)
+               {
+                   $doc_id = $key;
+                   $action = $value['action'];
+                   $bulkString[] = json_encode(array($action=>array('_id'=>$doc_id)));
+                   $bulkString[] = json_encode($value['request']);
+               }
+               if(!empty($bulkString)){
+                   $bulkString = join("\n", $bulkString)."\n";               
+                   $result= $this->elastic_obj->bulkDocument($index, $type,$bulkString); 
+               }
+           }                     
         }
         return $result;
    }
+   
 }
