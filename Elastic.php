@@ -157,7 +157,7 @@ class Elastic extends Curl {
            }
            if(isset($params['bulk']))
            {
-               $this->_request_url.="/_bulk".$params['bulk'];
+               $this->_request_url.="/".$params['bulk'];
            }
            if(isset($params['size']) && !empty($params['size']))
            {
@@ -373,6 +373,27 @@ class Elastic extends Curl {
             if(!empty($this->_request_url))
             {
                $result =  $this->call($this->_request_url, "GET",$document);
+            }            
+        }
+        return $result;
+   }
+   /*
+    * bulkDocument()
+    * Desc : used to update bulk document, user can perform multiple actions in single request
+    */
+   public function bulkDocument($index,$type,$document)
+   {
+        $result = array();      
+        if($this->_isconnected)
+        {
+            $params['index']=$index;
+            $params['type']=$type;
+            $params['bulk']="_bulk";
+            $this->_constructUrl($params);
+            echo $this->_request_url;
+            if(!empty($this->_request_url))
+            {
+               $result =  $this->call($this->_request_url, "POST",$document);
             }            
         }
         return $result;
