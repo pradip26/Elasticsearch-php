@@ -101,3 +101,17 @@ $doc = array('lastname'=>'humane','firstname'=>'Paddy');
 $id = 2; //document id
 $response = $elastic->updateDocument($doc, $id,'test','member');
 ```
+
+# Bulk indexing
+```
+$document = array(
+                166=>array('action'=>'create',
+                           'request'=>array('firstname'=>'ABC','lastname'=>'XYZ','empid'=>200)
+                     ),
+                167=>array('action'=>'create',
+                           'request'=>array('firstname'=>'PQR','lastname'=>'TLW','empid'=>201)
+                     )
+            );
+$res = $elastic->bulk($document, "test", "member");
+print_r($res);
+```
