@@ -38,7 +38,7 @@ $doc = array('firstname'=>'pradip','lastname'=>'humane','empid'=>100);
 $res = $elastic->createDocument($doc,3,'test','member');
 ```
 
-# Check document exits and get Document
+# Check document exists and get Document
 ```
 if($elastic->isDocumentExists(2)) { 
 $result = $elastic->getDocument(2); 
