@@ -105,7 +105,7 @@ $response = $elastic->updateDocument($doc, $id,'test','member');
 # Bulk indexing
 
 ```
-Sample Arrray 
+/*Structure of document array */ 
 $document = array( 
                {docid}=>array( 'action'=>{create/delete/index},
                                'request'=> array(
@@ -113,6 +113,7 @@ $document = array(
                                )
                              )
             );
+/*end*/
 
 $document = array(
                 166=>array('action'=>'create',
@@ -129,10 +130,11 @@ print_r($res);
 We can create the mappings in elasticsearch, mapping means we can defined index type fields with datatypes means we define "date" field with "date" datatype means we cannot set another data into that field . 
 Find Create Mapping example, in the below example we have created "testmap2" index with "emp1" type . Mapping array structure is as below.
 ```
-Sample array 
+/*Structure of document array, */ 
 $mapping['properties'] = array(
                            {field_name} = array('type'=>{integer/long/date/string})
                         )
+/*end*/                        
                         
 $mapping = array();
 $mapping['properties'] = array(
