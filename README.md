@@ -103,7 +103,17 @@ $response = $elastic->updateDocument($doc, $id,'test','member');
 ```
 
 # Bulk indexing
+
 ```
+Sample Arrray 
+$document = array( 
+               {docid}=>array( 'action'=>{create/delete/index},
+                               'request'=> array(
+                                 {field_name1}=>{value1},{field_name2}=>{value2},{field_name3}=>{value3}
+                               )
+                             )
+            );
+
 $document = array(
                 166=>array('action'=>'create',
                            'request'=>array('firstname'=>'ABC','lastname'=>'XYZ','empid'=>200)
@@ -115,3 +125,29 @@ $document = array(
 $res = $elastic->bulk($document, "test", "member");
 print_r($res);
 ```
+# Mappings
+We can create the mappings in elasticsearch, mapping means we can defined index type fields with datatypes means we define "date" field with "date" datatype means we cannot set another data into that field . 
+Find Create Mapping example, in the below example we have created "testmap2" index with "emp1" type . Mapping array structure is as below.
+```
+Sample array 
+$mapping['properties'] = array(
+                           {field_name} = array('type'=>{integer/long/date/string})
+                        )
+                        
+$mapping = array();
+$mapping['properties'] = array(
+                            'user_id'=>array('type'=>'integer'),
+                            'name'=>array('type'=>'string'),
+                            'date'=>array('type'=>'date','format'=>'YYYY-MM-DD')
+                            );
+$result = $elastic->createMapping($mapping, 'testmap2', 'emp1');
+var_dump($result);
+```
+Get Mapping
+
+We can fetch created mapping, it will shows you all the properties names wth their data types .
+```
+$result = $elastic->getMapping('testmap2', 'emp1');
+var_dump($result);
+```
+
