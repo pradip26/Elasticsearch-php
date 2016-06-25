@@ -130,7 +130,14 @@ class Elastic extends Curl {
            $type = isset($params['type'])?$params['type']:'';
            $id = isset($params['id'])?$params['id']:'';
         //   $document = isset($params['document'])?$params['document']:false;
-           $this->_request_url.="/".$index."/".$type;
+           if(!empty($params['mapping']))
+           {
+               $this->_request_url.="/".$index."/".$params['mapping']."/".$type;
+           }
+           else
+           {
+                $this->_request_url.="/".$index."/".$type;
+           }
            if(!empty($id))
            {
                $this->_request_url.="/".$id;
@@ -394,6 +401,50 @@ class Elastic extends Curl {
             if(!empty($this->_request_url))
             {
                $result =  $this->call($this->_request_url, "POST",$document);
+            }            
+        }
+        return $result;
+   }
+   /*
+    * Function : createMapping()
+    * @param $index name of index like DB
+    * @param $document document array 
+    * Desc : Mapping is used for defined schema with fields and datatype 
+    */
+   public function createMapping($index,$type,$document)
+   {
+       $result = array();      
+        if($this->_isconnected)
+        {
+            $params['index']=$index;
+            $params['type']=$type;
+            $params['mapping']="_mapping";
+            $this->_constructUrl($params);
+            if(!empty($this->_request_url))
+            {
+               $result =  $this->call($this->_request_url, "PUT",$document);
+            }            
+        }
+        return $result;
+   }
+   /*
+    * Function : getMapping()
+    * @param $index name of index like DB
+    * @param $type
+    * Desc : get mapping of index
+    */
+   public function getMapping($index,$type)
+   {
+       $result = array();      
+        if($this->_isconnected)
+        {
+            $params['index']=$index;
+            $params['type']=$type;
+            $params['mapping']="_mapping";
+            $this->_constructUrl($params);
+            if(!empty($this->_request_url))
+            {
+               $result =  $this->call($this->_request_url, "GET");
             }            
         }
         return $result;
