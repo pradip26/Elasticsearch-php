@@ -346,5 +346,38 @@ class Elasticindexer {
         }
         return $result;
    }
-   
+   /*
+    * Function : createMapping()
+    * @param $index name of index like DB
+    * @param $type name of type which is created under index
+    * @param $document document array format for mapping
+    * Desc : Mapping is used for defined schema, like user can create emp type with defined schema with datatypes
+    */
+   public function createMapping($document,$index="test",$type="member")
+   {
+       $result = array();
+        if($this->_isconnected)
+        {
+           if(!empty($document))
+           {
+               $result = $this->elastic_obj->createMapping($index,$type, $document);
+           }
+        }
+        return $result;
+   }
+   /*
+    * Function : getMapping()
+    * @param $index name of index like DB
+    * @param $type
+    * Desc : get mapping of index
+    */
+   public function getMapping($index,$type)
+   {
+       $result = array();
+        if($this->_isconnected)
+        {
+           $result = $this->elastic_obj->getMapping($index,$type);           
+        }
+        return $result;
+   }
 }
