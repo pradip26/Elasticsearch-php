@@ -380,4 +380,20 @@ class Elasticindexer {
         }
         return $result;
    }
+   /*
+    * createIndex()
+    * @document, settings array 
+    * @index, name of index which we are going to create
+    * Desc : create index in ES with all settings
+    */
+   public function createIndex($settings,$index='test')
+   {
+        $result = array();
+        if($this->_isconnected && !empty($settings))
+        {
+           $settings['settings'] = $settings; 
+           $result = $this->elastic_obj->createIndex($settings, $index);           
+        }
+        return $result;
+   }
 }
