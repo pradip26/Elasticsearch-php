@@ -449,4 +449,22 @@ class Elastic extends Curl {
         }
         return $result;
    }
+   /*
+    * createIndex()
+    * @index, name of index which we are going to create
+    * Desc : create index in ES with all settings
+    */
+   public function createIndex($document,$index='test')
+   {
+        $result = array();      
+        if($this->_isconnected)
+        {
+            $this->_request_url = $this->_protocol."://".$this->_host.":".$this->_port."/".$index;
+            if(!empty($this->_request_url))
+            {
+               $result =  $this->call($this->_request_url, "PUT",$document);
+            }            
+        }
+        return $result;
+   }
 }
