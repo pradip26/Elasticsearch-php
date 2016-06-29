@@ -152,4 +152,15 @@ We can fetch created mapping, it will shows you all the properties names wth the
 $result = $elastic->getMapping('testmap2', 'emp1');
 var_dump($result);
 ```
+# Create Index with settings
+
+User can set tokenizer and anlyzer for index, we generally add this settings for filter purpose and also user can add the shards on index .Please find "autocomplete" tokenizer example below. 
+```
+$settings = array();
+$settings['number_of_shards'] =1;
+$settings['analysis']['filter'] = array('autocomplete_filter'=>array('type'=>'edge_ngram','min'=>3,'max'=>20));
+$settings['analysis']['analyzer'] = array('autocomplete'=>array('type'=>'custom','tokenizer'=>'standard','filter'=>array('lowercase','autocomplete_filter')));
+$result = $elastic->createIndex($settings, 'testmap3');
+```
+
 
