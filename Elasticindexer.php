@@ -212,7 +212,7 @@ class Elasticindexer {
                 {
                     $filter_query['query']['filtered']['query'] = $query;
                 }
-                if(!empty($query))
+                if(!empty($sort))
                 {
                     $filter_query['sort'] = $sort;
                 }
